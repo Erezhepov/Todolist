@@ -1,9 +1,8 @@
+@import "vars";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-$color: #212832;
-$primary_color: #FED36A;
 
 body {
   margin: 0;
@@ -11,6 +10,8 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 17px;
   background-color: #212832;
+  color: $color_text;
+  box-sizing: border-box;
 }
 .container{
   max-width: 1250px;

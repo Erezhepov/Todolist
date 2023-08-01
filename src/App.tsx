@@ -1,26 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react';
+import Header from './components/header/Header';
+import {Route, Routes, useNavigate} from "react-router-dom";
+import AuthPage from "./pages/AuthPage";
+import TodolistPage from "./pages/TodolistPage";
+import {fetchAuth} from "./store/actionCreators/authAC";
+import {useDispatch} from "react-redux";
+import {useTypedSelector} from "./hooks/useTypedSelector";
 
 function App() {
+    const dispatch: any = useDispatch()
+    const {login} = useTypedSelector(state => state.auth)
+    const navigate = useNavigate()
+    useEffect(() => {
+        dispatch(fetchAuth())
+    }, [dispatch])
+    useEffect(() => {
+        if (login === null || login?.length === 0){
+            navigate('/auth')
+        }
+    }, [login, navigate])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <div>
+          <Header />
+          <div className="content">
+              <Routes>
+                  <Route path={'/'} element={<TodolistPage />} />
+                  <Route path={'/auth'} element={<AuthPage />} />
+              </Routes>
+          </div>
+      </div>
+  )
 }
 
 export default App;

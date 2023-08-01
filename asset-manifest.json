@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Erezhepov/todolist/static/css/main.fa4ea335.css",
+    "main.js": "/Erezhepov/todolist/static/js/main.26ba0a80.js",
+    "index.html": "/Erezhepov/todolist/index.html",
+    "main.fa4ea335.css.map": "/Erezhepov/todolist/static/css/main.fa4ea335.css.map",
+    "main.26ba0a80.js.map": "/Erezhepov/todolist/static/js/main.26ba0a80.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fa4ea335.css",
+    "static/js/main.26ba0a80.js"
+  ]
+}

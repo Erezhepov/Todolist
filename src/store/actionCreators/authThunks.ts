@@ -1,7 +1,7 @@
 import {Dispatch} from "react";
 import {instance} from "../../api/api";
 import {
-    ActionAuthSuccess,
+    ACAuthSuccess,
     AUTH_DELETE,
     AUTH_ERROR,
     AUTH_ERROR_DATA,
@@ -11,7 +11,7 @@ import {
 } from "../reducers/authReducer";
 import {TInputs} from "../../pages/AuthPage";
 
-interface IFetchData{
+export interface IFetchData{
     data: any
     messages: string[]
     resultCode: ResultCode
@@ -24,7 +24,7 @@ export const fetchAuth = () => {
             const response = await instance.get('auth/me')
             const data = response.data
             if (data.resultCode === ResultCode.success){
-                dispatch(ActionAuthSuccess(data.data))
+                dispatch(ACAuthSuccess(data.data))
             }
         }catch (e){
             dispatch({type: AUTH_ERROR, payload: 'Ошибка при авторизации'})

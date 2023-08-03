@@ -3,6 +3,7 @@ import InputCard from "../../UI/InputCard";
 
 interface IEditableValue {
     value: string
+    renameValue: (value: string) => void
 }
 
 const EditableValue: React.FC<IEditableValue> = (props) => {
@@ -14,12 +15,13 @@ const EditableValue: React.FC<IEditableValue> = (props) => {
     const editHandler = (changedValue: string) => {
         if (changedValue.length > 0){
             setValue(changedValue)
+            props.renameValue(changedValue)
         }
         setIsChanged(false)
     }
     return (
         <div>
-            { isChanged ? <InputCard editHandler={editHandler} />
+            { isChanged ? <InputCard title={value} editHandler={editHandler} />
                 : <p className={'cursor-pointer h-[1.8em] flex items-center'} onDoubleClick={changeValue}>{ value }</p> }
         </div>
     );

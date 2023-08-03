@@ -3,7 +3,7 @@ import Header from './components/header/Header';
 import {Route, Routes, useNavigate} from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import TodolistPage from "./pages/TodolistPage";
-import {fetchAuth} from "./store/actionCreators/authAC";
+import {fetchAuth} from "./store/actionCreators/authThunks";
 import {useDispatch} from "react-redux";
 import {useTypedSelector} from "./hooks/useTypedSelector";
 
@@ -23,7 +23,7 @@ function App() {
   return (
       <div>
           <Header />
-          <div className="content">
+          <div className="content ">
               <Routes>
                   <Route path={'/'} element={<TodolistPage />} />
                   <Route path={'/auth'} element={<AuthPage />} />

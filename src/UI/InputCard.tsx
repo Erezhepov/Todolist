@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 
 interface IInputCard {
     editHandler: (changedValue: string) => void
+    title: string
 }
 
-const InputCard = ({editHandler} : IInputCard) => {
-    const [value, setValue] = useState('')
+const InputCard = ({editHandler, title} : IInputCard) => {
+    const [value, setValue] = useState(title)
     const changeValue = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue(e.currentTarget.value)
     }
@@ -14,7 +15,7 @@ const InputCard = ({editHandler} : IInputCard) => {
     }
 
     const addEditHandler = (e:  React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter'){
+        if (e.key === 'Enter' && value.length){
             editHandler(value)
         }
     }

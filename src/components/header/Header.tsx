@@ -2,7 +2,7 @@ import React from 'react';
 import {NavLink} from "react-router-dom";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useDispatch} from "react-redux";
-import {logoutThunk} from "../../store/actionCreators/authAC";
+import {logoutThunk} from "../../store/actionCreators/authThunks";
 
 const Header = () => {
     const {login} = useTypedSelector(state => state.auth)

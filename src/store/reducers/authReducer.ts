@@ -65,6 +65,6 @@ export const AuthReducer = (state=initialState, action: TActionsAuth) => {
     }
 }
 
-export const ActionAuthSuccess = (data: IAuthData): IActionAuthSuccess => {
+export const ACAuthSuccess = (data: IAuthData): IActionAuthSuccess => {
     return {type: AUTH_SUCCESS, payload: {...data}}
 }

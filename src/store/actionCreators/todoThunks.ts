@@ -1,6 +1,6 @@
 import {Dispatch} from "redux"
 import {
-    ACTodoDeleteList, ACTodoDeleteTask,
+    ACTodoDeleteList, ACTodoDeleteTask, ACTodoDescriptionTask,
     ACTodoRenameList, ACTodoRenameTask,
     ACTodoSuccessList,
     ACTodoSuccessTasks,
@@ -78,7 +78,6 @@ export const getTodoTasksAC = (id: string) => {
             dispatch({type: TODO_LOADING})
             const response = await instance.get(`/todo-lists/${id}/tasks`)
             const data: ITodos = response.data
-            // console.log(data)
             dispatch(ACTodoSuccessTasks(data, id))
         }catch (e){
             dispatch({type: TODO_ERROR, payload: 'Ошибка при получении задач из todo листа'})
@@ -123,13 +122,59 @@ export const renameTodoTaskAC = (listId: string, taskId: string, title: string) 
             dispatch({type: TODO_LOADING})
             const response = await instance.put(`/todo-lists/${listId}/tasks/${taskId}`, {title})
             const data: IFetchData = response.data
-            console.log(data)
             if (data.resultCode === ResultCode.success){
                 dispatch(ACTodoRenameTask(listId, taskId, title))
             }
             if (data.resultCode === ResultCode.error) dispatch({type: TODO_ERROR_DATA, payload: data.messages[0]})
         }catch (e){
             dispatch({type: TODO_ERROR, payload: 'Ошибка при изменении имени todo листа'})
+        }
+    }
+}
+export const putDescriptionTaskAC = (listId: string, taskId: string, title: string, description: string) => {
+    return async (dispatch: Dispatch<TActionsTodo>) => {
+        try {
+            dispatch({type: TODO_LOADING})
+            const response = await instance.put(`/todo-lists/${listId}/tasks/${taskId}`, {title, description})
+            const data: IFetchData = response.data
+            if (data.resultCode === ResultCode.success){
+                dispatch(ACTodoDescriptionTask(listId, taskId, description))
+            }
+            if (data.resultCode === ResultCode.error) dispatch({type: TODO_ERROR_DATA, payload: data.messages[0]})
+        }catch (e){
+            dispatch({type: TODO_ERROR, payload: 'Ошибка при изменении описания'})
+        }
+    }
+}
+export const reorderTodolistAC = (id: string, putAfterItemId: string | null) => {
+    return async (dispatch: Dispatch<TActionsTodo | any>) => {
+        try {
+            dispatch({type: TODO_LOADING})
+            const response = await instance.put(`/todo-lists/${id}/reorder`, {putAfterItemId})
+            const data: IFetchData = response.data
+            if (data.resultCode === ResultCode.success){
+                dispatch(getTodolistAC())
+            }
+            if (data.resultCode === ResultCode.error) dispatch({type: TODO_ERROR_DATA, payload: data.messages[0]})
+        }catch (e){
+            dispatch({type: TODO_ERROR, payload: 'Ошибка при изменении порядка todo листа'})
+        }
+    }
+}
+export const reorderTaskAC = (todolistId: string, taskId: string, putAfterItemId: string | null) => {
+    debugger
+    return async (dispatch: Dispatch<TActionsTodo | any>) => {
+        try {
+            dispatch({type: TODO_LOADING})
+            const response = await instance.put(`/todo-lists/${todolistId}/tasks/${taskId}/reorder`, {putAfterItemId})
+            const data: IFetchData = response.data
+            console.log(data)
+            if (data.resultCode === ResultCode.success){
+                dispatch(getTodoTasksAC(todolistId))
+            }
+            if (data.resultCode === ResultCode.error) dispatch({type: TODO_ERROR_DATA, payload: data.messages[0]})
+        }catch (e){
+            dispatch({type: TODO_ERROR, payload: 'Ошибка при изменении порядка задач в todo листе'})
         }
     }
 }

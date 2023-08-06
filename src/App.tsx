@@ -21,9 +21,9 @@ function App() {
     }, [login, navigate])
 
   return (
-      <div>
+      <div className={'h-[100%]'}>
           <Header />
-          <div className="content ">
+          <div className="content  ">
               <Routes>
                   <Route path={'/'} element={<TodolistPage />} />
                   <Route path={'/auth'} element={<AuthPage />} />

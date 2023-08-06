@@ -7,6 +7,7 @@ export const TODO_RENAME_TODOLIST = 'TODO_RENAME_TODOLIST'
 export const TODO_RENAME_TASK = 'TODO_RENAME_TASK'
 export const TODO_DELETE_LIST = 'TODO_DELETE_LIST'
 export const TODO_DELETE_TASK = 'TODO_DELETE_TASK'
+export const TODO_DESCRIPTION_TASK = 'TODO_DESCRIPTION_TASK'
 
 export interface ITask {
     description: string
@@ -89,10 +90,18 @@ interface IActionTodoTaskRename {
         title: string
     }
 }
+interface IActionTodoTaskDescription {
+    type: typeof TODO_DESCRIPTION_TASK,
+    payload: {
+        listId: string
+        taskId: string
+        description: string
+    }
+}
 
 export type TActionsTodo = IActionTodoLoading | IActionTodoError | IActionTodoSuccessTasks
     | IActionTodoSuccessList | IActionTodoErrorData | IActionTodolistRename | IActionTodoDeleteList
-    | IActionTodoDeleteTask | IActionTodoTaskRename
+    | IActionTodoDeleteTask | IActionTodoTaskRename | IActionTodoTaskDescription
 
 const initialState: ITodoState = {
     loading: false,
@@ -131,7 +140,6 @@ export const TodoReducer = (state=initialState, action: TActionsTodo) => {
             })
             return {...state, loading: false, error: null, lists: updatedLists}
         case TODO_RENAME_TASK:
-            debugger
             const todolistId = action.payload.listId
             const updatedTaskItems = [...state.tasks[todolistId].items]
             updatedTaskItems.map(t => {
@@ -141,7 +149,7 @@ export const TodoReducer = (state=initialState, action: TActionsTodo) => {
                 return t
             })
             const updatedTasks = {
-                [todolistId] : {totalCount: state.tasks[action.payload.listId].totalCount - 1, error: null, items: updatedTaskItems}
+                [todolistId] : {...state.tasks[todolistId], error: null, items: updatedTaskItems}
             }
             return {...state, loading: false, error: null, tasks: {...state.tasks, ...updatedTasks}}
         case TODO_DELETE_LIST:
@@ -159,6 +167,19 @@ export const TodoReducer = (state=initialState, action: TActionsTodo) => {
                 [listId] : {totalCount: state.tasks[action.payload.listId].totalCount - 1, error: null, items: changedTaskItems}
             }
             return {...state, loading: false, error: null, tasks: {...state.tasks, ...updatedTask}}
+        case TODO_DESCRIPTION_TASK:
+            const idList = action.payload.listId
+            const itemsOfTask = [...state.tasks[idList].items]
+            itemsOfTask.map(t => {
+                if (t.id === action.payload.taskId){
+                    t.description = action.payload.description
+                }
+                return t
+            })
+            const changedTask = {
+                [idList] : {...state.tasks[idList] ,error: null, items: itemsOfTask}
+            }
+            return {...state, loading: false, error: null, tasks: {...state.tasks, ...changedTask}}
         default:
             return state
     }
@@ -175,6 +196,9 @@ export const ACTodoRenameList = (id: string, title: string): IActionTodolistRena
 }
 export const ACTodoRenameTask = (listId: string, taskId: string, title: string): IActionTodoTaskRename => {
     return {type: TODO_RENAME_TASK, payload: {listId, taskId, title}}
+}
+export const ACTodoDescriptionTask = (listId: string, taskId: string, description: string): IActionTodoTaskDescription => {
+    return {type: TODO_DESCRIPTION_TASK, payload: {listId, taskId, description}}
 }
 export const ACTodoSuccessTasks = (tasks: ITodos, listId: string): IActionTodoSuccessTasks => {
     return {type: TODO_SUCCESS_TASKS, payload: {tasks, listId}}

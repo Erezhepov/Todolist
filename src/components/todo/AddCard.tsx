@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {postTodoTasksAC} from "../../store/actionCreators/todoThunks";
 import {useDispatch} from "react-redux";
 
@@ -35,7 +35,10 @@ const AddCard: React.FC<IAddCard> = ({id}) => {
             { isActive ? <>
                 <input placeholder={'Enter a title for this card...'} autoFocus onKeyPress={postWithEnter} onChange={changeTitle} value={title}
                        className={'rounded-[.2em] p-[.25em] h-[1.8em] text-primary'} type="text"/>
-                <button className={'btn '} onClick={postTodolist}>Add Card</button>
+                <div className={'flex justify-between'}>
+                    <button className={'btn '} onClick={postTodolist}>Add Card</button>
+                    <button className={'btn !w-[60px]'} onClick={() => setIsActive(false)}>X</button>
+                </div>
             </> : (
                 <div onClick={activeHandler} className={'cursor-pointer opacity-[.6] hover:opacity-[1] border-2 p-[.7em] rounded h-[40px] flex items-center'}>
                     <p>+ Add Card</p>

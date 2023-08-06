@@ -26,13 +26,15 @@ const AddList: React.FC<any> = () => {
             setTitle('')
         }
     }
-    //onBlur={() => setIsActive(false)} //incorrect
     return (
         <div className={'flex flex-col gap-3  min-w-[240px]'}>
             { isActive ? <>
                 <input placeholder={'Enter list title...'} autoFocus onKeyPress={postWithEnter} onChange={changeTitle} value={title}
                        className={'rounded-[.2em] p-[.25em] h-[1.8em] text-primary'} type="text"/>
-                <button className={'btn'} onClick={postTodolist}>Add list</button>
+                <div className={'flex justify-between'}>
+                    <button className={'btn'} onClick={postTodolist}>Add list</button>
+                    <button className={'btn !w-[60px]'} onClick={() => setIsActive(false)}>X</button>
+                </div>
             </> : (
                 <div onClick={activeHandler} className={'cursor-pointer opacity-[.6] hover:opacity-[1] border-2 p-[.7em] rounded h-[40px] flex items-center'}>
                     <p>+ Add another list</p>

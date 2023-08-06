@@ -13,8 +13,8 @@ const RemoveTodoListBtn: React.FC<IRemoveTodoListBtn> = ({id}) => {
         dispatch(deleteTodolistAC(id))
     }
     return (
-        <button onClick={deleteTodolist}>
-            x
+        <button className={'btn !w-[40px] !h-[36px] ml-[auto]'} onClick={deleteTodolist}>
+            X
         </button>
     );
 };

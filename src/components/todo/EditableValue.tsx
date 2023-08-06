@@ -13,7 +13,7 @@ const EditableValue: React.FC<IEditableValue> = (props) => {
         setIsChanged(true)
     }
     const editHandler = (changedValue: string) => {
-        if (changedValue.length > 0){
+        if (changedValue.length > 0 && changedValue !== value){
             setValue(changedValue)
             props.renameValue(changedValue)
         }
@@ -22,7 +22,7 @@ const EditableValue: React.FC<IEditableValue> = (props) => {
     return (
         <div>
             { isChanged ? <InputCard title={value} editHandler={editHandler} />
-                : <p className={'cursor-pointer h-[1.8em] flex items-center'} onDoubleClick={changeValue}>{ value }</p> }
+                : <p className={'cursor-pointer h-[1.8em] flex items-center'} onClick={changeValue}>{ value }</p> }
         </div>
     );
 };

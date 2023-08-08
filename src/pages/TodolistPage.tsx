@@ -14,33 +14,34 @@ const TodolistPage = () => {
     const [currentList, setCurrentList] = useState<IList | null>(null)
     const [droppedList, setDroppedList] = useState<IList | null>(null)
     const [isChanged, setIsChanged] = useState(false)
-    const changeOrderList = () => {
-        if (currentList && droppedList){
-            const lastDroppedIndex = todoState.lists.findIndex(x => x.id === droppedList.id)
-            if (currentList.order > droppedList.order){
-                if (lastDroppedIndex === todoState.lists.length - 1){
-                    dispatch(reorderTodolistAC(currentList.id, null))
-                }else{
-                    const newPlaceList = todoState.lists[lastDroppedIndex + 1]
-                    dispatch(reorderTodolistAC(currentList.id, newPlaceList.id))
-                }
-            }
-            if (currentList.order < droppedList.order){
-                const newPlaceList = todoState.lists[lastDroppedIndex ]
-                dispatch(reorderTodolistAC(currentList.id, newPlaceList.id))
-            }
-        }
-        setIsChanged(false)
-    }
     useEffect(() => {
         dispatch(getTodolistAC())
     }, [dispatch]);
     useEffect(() => {
-        debugger
         if (isChanged){
+            const changeOrderList = () => {
+                if (currentList && droppedList){
+                    const lastDroppedIndex = todoState.lists.findIndex(x => x.id === droppedList.id)
+                    if (currentList.order > droppedList.order){
+                        if (lastDroppedIndex === todoState.lists.length - 1){
+                            dispatch(reorderTodolistAC(currentList.id, null))
+                        }else{
+                            const newPlaceList = todoState.lists[lastDroppedIndex + 1]
+                            dispatch(reorderTodolistAC(currentList.id, newPlaceList.id))
+                        }
+                    }
+                    if (currentList.order < droppedList.order){
+                        const newPlaceList = todoState.lists[lastDroppedIndex ]
+                        dispatch(reorderTodolistAC(currentList.id, newPlaceList.id))
+                    }
+                }
+                setIsChanged(false)
+            }
             changeOrderList()
         }
-    }, [isChanged]);
+    },
+        // eslint-disable-next-line
+        [isChanged]);
     if (todoState.error) return <ErrorFetch error={todoState.error}/>
     return (
         <>

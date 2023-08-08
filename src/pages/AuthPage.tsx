@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {SubmitHandler, useForm} from "react-hook-form";
 import AuthInput from "../components/auth/AuthInput";
 import {useDispatch} from "react-redux";
-import {fetchAuth, loginThunk} from "../store/actionCreators/authThunks";
+import {loginThunk} from "../store/actionCreators/authThunks";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useNavigate} from "react-router-dom";
 import {ErrorFetch} from "../components/ErrorFetch";

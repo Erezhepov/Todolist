@@ -10,7 +10,6 @@ import {
     TActionsAuth
 } from "../reducers/authReducer";
 import {TInputs} from "../../pages/AuthPage";
-import {TODO_ERROR_DATA} from "../reducers/todoReducer";
 
 export interface IFetchData{
     data: any

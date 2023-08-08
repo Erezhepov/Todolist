@@ -73,27 +73,6 @@ const TodoList: React.FC<ITodoList> = ({title, id, list, currentList, setCurrent
         }
         e.preventDefault()
     }
-    const changeOrderTask = () => {
-        if (currentList && currentTask && droppedList){
-            if (droppedTask?.id !== undefined){
-                const tasks = todoState.tasks[droppedList.id].items
-                const lastDroppedIndex = tasks.findIndex(x => x.id === droppedTask.id)
-                if (currentTask.order > droppedTask.order){
-                    if (lastDroppedIndex === tasks.length - 1){
-                        dispatch(reorderTaskAC(currentList.id, currentTask.id, null))
-                    }else{
-                        const newPlaceTask = tasks[lastDroppedIndex + 1]
-                        dispatch(reorderTaskAC(currentList.id,  currentTask.id, newPlaceTask.id))
-                    }
-                }
-                if (currentTask.order < droppedTask.order){
-                    const newPlaceTask = tasks[lastDroppedIndex]
-                    dispatch(reorderTaskAC(currentList.id, currentTask.id, newPlaceTask.id))
-                }
-            }
-        }
-        setIsMovedTask(false)
-    }
     useEffect(() => {
         if (id){
             dispatch(getTodoTasksAC(id))
@@ -101,9 +80,32 @@ const TodoList: React.FC<ITodoList> = ({title, id, list, currentList, setCurrent
     }, [id, dispatch]);
     useEffect(() => {
         if (isMovedTask){
+            const changeOrderTask = () => {
+                if (currentList && currentTask && droppedList){
+                    if (droppedTask?.id !== undefined){
+                        const tasks = todoState.tasks[droppedList.id].items
+                        const lastDroppedIndex = tasks.findIndex(x => x.id === droppedTask.id)
+                        if (currentTask.order > droppedTask.order){
+                            if (lastDroppedIndex === tasks.length - 1){
+                                dispatch(reorderTaskAC(currentList.id, currentTask.id, null))
+                            }else{
+                                const newPlaceTask = tasks[lastDroppedIndex + 1]
+                                dispatch(reorderTaskAC(currentList.id,  currentTask.id, newPlaceTask.id))
+                            }
+                        }
+                        if (currentTask.order < droppedTask.order){
+                            const newPlaceTask = tasks[lastDroppedIndex]
+                            dispatch(reorderTaskAC(currentList.id, currentTask.id, newPlaceTask.id))
+                        }
+                    }
+                }
+                setIsMovedTask(false)
+            }
             changeOrderTask()
         }
-    }, [isMovedTask]);
+    },
+        // eslint-disable-next-line
+        [isMovedTask]);
     return (
             <div className={'card-wrapper'}>
                 <div onDragStart={(e) => dragStartHandler(e, list)}

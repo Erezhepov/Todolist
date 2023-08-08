@@ -161,6 +161,8 @@ export const TodoReducer = (state=initialState, action: TActionsTodo) => {
                 const payload = action.payload
                 if (task.todoListId !== payload.listId || task.id !== payload.taskId){
                     return task
+                }else{
+                    return false
                 }
             })
             const updatedTask = {

@@ -23,9 +23,10 @@ interface ITodoList {
     setLastList: (value: IList) => void
     setIsChanged: (isChanged: boolean) => void
     droppedList: IList | null
+    isChanged: boolean
 }
 
-const TodoList: React.FC<ITodoList> = ({title, id, list, currentList, setCurrentList, setLastList, setIsChanged, droppedList}) => {
+const TodoList: React.FC<ITodoList> = ({title, id, list, currentList, setCurrentList, setLastList, setIsChanged, droppedList, isChanged}) => {
     const todoState = useTypedSelector(state => state.todo)
     const tasks = useTypedSelector(state => state.todo.tasks)
     const dispatch: any = useDispatch()
@@ -51,14 +52,22 @@ const TodoList: React.FC<ITodoList> = ({title, id, list, currentList, setCurrent
     }
     const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {
         e.currentTarget.style.background = '#212832'
+        setIsChanged(false)
+        setIsMovedTask(true)
+        setDraggableTask(true)
+
     }
     const onDropHandler = (e: React.DragEvent<HTMLDivElement> | any, list: IList) => {
-        if (e.target.classList.contains('todolist') || e.target.parentNode.classList.contains('todolist')){
+        if (e.target.classList.contains('todolist') || e.target.parentNode.classList.contains('todolist')) {
+            e.currentTarget.style.background = '#212832'
             if (currentList?.order !== list.order){
                 if (currentList?.order !== undefined && currentList?.order !== null){
-                    setDraggableTask(true)
-                    setLastList(list)
-                    setIsChanged(true)
+                    if (!isMovedTask){
+                        debugger
+                        setDraggableTask(true)
+                        setLastList(list)
+                        setIsChanged(true)
+                    }
                 }
             }
         }
@@ -91,10 +100,12 @@ const TodoList: React.FC<ITodoList> = ({title, id, list, currentList, setCurrent
         }
     }, [id, dispatch]);
     useEffect(() => {
-        changeOrderTask()
+        if (isMovedTask){
+            changeOrderTask()
+        }
     }, [isMovedTask]);
     return (
-            <div>
+            <div className={'card-wrapper'}>
                 <div onDragStart={(e) => dragStartHandler(e, list)}
                      onDragLeave={(e) => dragLeaveHandler(e)}
                      onDragOver={e => dragOverHandler(e)}

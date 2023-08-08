@@ -35,6 +35,7 @@ const Task: React.FC<ICard> = ({task, listId, listName, setCurrentList, list, cu
     }
     const dragStartHandler = (e:  React.DragEvent<HTMLDivElement>, list: IList, task: ITask) => {
         setIsChanged(false)
+        setIsMovedTask(false)
         setCurrentList(list)
         setCurrentTask(task)
     }
@@ -45,13 +46,13 @@ const Task: React.FC<ICard> = ({task, listId, listName, setCurrentList, list, cu
         e.preventDefault()
         e.currentTarget.style.background = 'rgba(255,255,255,.1)'
     }
-    const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {}
+    const dragEndHandler = (e: React.DragEvent<HTMLDivElement>) => {
+        setIsMovedTask(true)
+    }
     const onDropHandler = (e: React.DragEvent<HTMLDivElement>, list: IList, task: ITask) => {
-        debugger
         if (currentList?.order !== undefined && currentList?.order !== null){
             setLastList(list)
             setDroppedTask(task)
-            setIsMovedTask(true)
         }
         e.preventDefault()
     }

@@ -10,6 +10,7 @@ import {
     TActionsAuth
 } from "../reducers/authReducer";
 import {TInputs} from "../../pages/AuthPage";
+import {TODO_ERROR_DATA} from "../reducers/todoReducer";
 
 export interface IFetchData{
     data: any
@@ -26,6 +27,7 @@ export const fetchAuth = () => {
             if (data.resultCode === ResultCode.success){
                 dispatch(ACAuthSuccess(data.data))
             }
+            if (data.resultCode === ResultCode.error) dispatch({type: AUTH_ERROR_DATA, payload: ''})
         }catch (e){
             dispatch({type: AUTH_ERROR, payload: 'Ошибка при авторизации'})
         }
@@ -60,6 +62,9 @@ export const logoutThunk = () => {
             const data: IFetchData = response.data
             if (data.resultCode === ResultCode.success){
                 dispatch({type: AUTH_DELETE})
+            }
+            if (data.resultCode === ResultCode.error){
+                dispatch({type: AUTH_ERROR_DATA, payload: data.messages[0]})
             }
         }catch (e){
             dispatch({type: AUTH_ERROR, payload: 'Ошибка при выхода'})

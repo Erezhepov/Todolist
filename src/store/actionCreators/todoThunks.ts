@@ -162,7 +162,6 @@ export const reorderTodolistAC = (id: string, putAfterItemId: string | null) => 
     }
 }
 export const reorderTaskAC = (todolistId: string, taskId: string, putAfterItemId: string | null) => {
-    debugger
     return async (dispatch: Dispatch<TActionsTodo | any>) => {
         try {
             dispatch({type: TODO_LOADING})

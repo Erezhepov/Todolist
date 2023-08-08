@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {SubmitHandler, useForm} from "react-hook-form";
 import AuthInput from "../components/auth/AuthInput";
 import {useDispatch} from "react-redux";
-import {loginThunk} from "../store/actionCreators/authThunks";
+import {fetchAuth, loginThunk} from "../store/actionCreators/authThunks";
 import {useTypedSelector} from "../hooks/useTypedSelector";
 import {useNavigate} from "react-router-dom";
 import {ErrorFetch} from "../components/ErrorFetch";
@@ -22,7 +22,6 @@ const AuthPage = () => {
         dispatch(loginThunk(data))
     };
     const navigate = useNavigate()
-
     useEffect(() => {
         if (login){
             navigate('/')
@@ -33,6 +32,11 @@ const AuthPage = () => {
         <>
             {loading && <Loading />}
             <div className={'container py-6'}>
+                <div className={'mb-10'}>
+                    <h2 className={'text-[1.3em]'}>You can sign in with test email</h2>
+                    <p>Email: free@samuraijs.com</p>
+                    <p>Password: free</p>
+                </div>
                 <form className={'flex flex-col gap-[.8em] items-start'} onSubmit={handleSubmit(onSubmit)}>
                     <AuthInput label={'Email:'} value={'email'} errors={errors} register={register} type={'text'} required={true} />
                     <AuthInput label={'Password:'} value={'password'} errors={errors} register={register} type={'password'} required={true} />

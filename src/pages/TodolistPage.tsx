@@ -36,6 +36,7 @@ const TodolistPage = () => {
         dispatch(getTodolistAC())
     }, [dispatch]);
     useEffect(() => {
+        debugger
         if (isChanged){
             changeOrderList()
         }
@@ -45,7 +46,7 @@ const TodolistPage = () => {
         <>
             {todoState.loading && <Loading />}
             <div className={' ml-6 py-6 pr-6 flex gap-6 overflow-auto h-[100%] flex-1'}>
-                    {todoState.lists.map(list => <TodoList droppedList={droppedList} setIsChanged={setIsChanged} setLastList={setDroppedList} setCurrentList={setCurrentList} currentList={currentList} list={list} key={list.id} id={list.id} title={list.title} />)}
+                    {todoState.lists.map(list => <TodoList isChanged={isChanged} droppedList={droppedList} setIsChanged={setIsChanged} setLastList={setDroppedList} setCurrentList={setCurrentList} currentList={currentList} list={list} key={list.id} id={list.id} title={list.title} />)}
                 <AddList />
             </div>
         </>

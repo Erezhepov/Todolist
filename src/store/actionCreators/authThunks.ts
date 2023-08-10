@@ -10,6 +10,7 @@ import {
     TActionsAuth
 } from "../reducers/authReducer";
 import {TInputs} from "../../pages/AuthPage";
+import axios from "axios";
 
 export interface IFetchData{
     data: any
@@ -21,12 +22,18 @@ export const fetchAuth = () => {
     return async (dispatch: Dispatch<TActionsAuth>) => {
         try {
             dispatch({type: AUTH_LOADING})
-            const response = await instance.get('auth/me')
+            const response = await axios.get('https://social-network.samuraijs.com/api/1.1/auth/me', {
+                baseURL: 'https://social-network.samuraijs.com/api/1.1/',
+                withCredentials: true,
+                headers: {'API-KEY': '3dbf5c57-395a-4f66-bcf2-b9af8c3d8406'}
+            })
             const data = response.data
             if (data.resultCode === ResultCode.success){
                 dispatch(ACAuthSuccess(data.data))
             }
-            if (data.resultCode === ResultCode.error) dispatch({type: AUTH_ERROR_DATA, payload: ''})
+            if (data.resultCode === ResultCode.error) {
+                dispatch({type: AUTH_ERROR_DATA, payload: ''})
+            }
         }catch (e){
             dispatch({type: AUTH_ERROR, payload: 'Ошибка при авторизации'})
         }

@@ -21,8 +21,10 @@ const InputCard = ({editHandler, title} : IInputCard) => {
     }
 
     return (
-        <input autoFocus onKeyPress={addEditHandler} onBlur={changeEditHandler} onChange={changeValue} value={value}
-               className={'rounded-[.2em] p-[.25em] w-[140px] h-[1.8em] text-primary'} type="text"/>
+        <>
+            <input autoFocus onKeyPress={addEditHandler} onBlur={changeEditHandler} onChange={changeValue} value={value}
+                   className={'rounded-[.2em] p-[.25em] w-[140px] h-[1.8em] text-primary'} type="text"/>
+        </>
     );
 };
 

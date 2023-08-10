@@ -2,6 +2,7 @@ export const TODO_LOADING = 'TODO_LOADING'
 export const TODO_ERROR = 'TODO_ERROR'
 export const TODO_SUCCESS_TASKS = 'TODO_SUCCESS_TASK'
 export const TODO_SUCCESS_LIST = 'TODO_SUCCESS_LIST'
+export const TODO_CREATE_LIST = 'TODO_CREATE_LIST'
 export const TODO_ERROR_DATA = 'TODO_ERROR_DATA'
 export const TODO_RENAME_TODOLIST = 'TODO_RENAME_TODOLIST'
 export const TODO_RENAME_TASK = 'TODO_RENAME_TASK'
@@ -60,6 +61,10 @@ interface IActionTodoSuccessList {
     type: typeof TODO_SUCCESS_LIST,
     payload: IList[]
 }
+interface IActionTodoCreateList {
+    type: typeof TODO_CREATE_LIST,
+    payload: IList
+}
 interface IActionTodoErrorData {
     type: typeof TODO_ERROR_DATA,
     payload: string
@@ -102,6 +107,7 @@ interface IActionTodoTaskDescription {
 export type TActionsTodo = IActionTodoLoading | IActionTodoError | IActionTodoSuccessTasks
     | IActionTodoSuccessList | IActionTodoErrorData | IActionTodolistRename | IActionTodoDeleteList
     | IActionTodoDeleteTask | IActionTodoTaskRename | IActionTodoTaskDescription
+    | IActionTodoCreateList
 
 const initialState: ITodoState = {
     loading: false,
@@ -131,6 +137,8 @@ export const TodoReducer = (state=initialState, action: TActionsTodo) => {
             return {...state, loading: false, error: null, tasks: {...state.tasks, ...newTask} }
         case TODO_SUCCESS_LIST:
             return {...state, loading: false, error: null, lists: action.payload}
+        case TODO_CREATE_LIST:
+            return {...state, loading: false, error: null, lists: [...state.lists, action.payload]}
         case TODO_RENAME_TODOLIST:
             const updatedLists = state.lists.map(list => {
                 if (list.id === action.payload.id){
@@ -192,6 +200,9 @@ export const ACTodoSuccessList = (lists: IList[]): IActionTodoSuccessList => {
 }
 export const ACTodoDeleteList = (id: string): IActionTodoDeleteList => {
     return {type: TODO_DELETE_LIST, payload: id}
+}
+export const ACTodoCreateList = (list: IList): IActionTodoCreateList => {
+    return {type: TODO_CREATE_LIST, payload: list}
 }
 export const ACTodoRenameList = (id: string, title: string): IActionTodolistRename => {
     return {type: TODO_RENAME_TODOLIST, payload: {id, title}}

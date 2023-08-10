@@ -1,5 +1,6 @@
 import {Dispatch} from "redux"
 import {
+    ACTodoCreateList,
     ACTodoDeleteList, ACTodoDeleteTask, ACTodoDescriptionTask,
     ACTodoRenameList, ACTodoRenameTask,
     ACTodoSuccessList,
@@ -15,6 +16,12 @@ import {instance} from "../../api/api";
 import {IFetchData} from "./authThunks";
 import {ResultCode} from "../reducers/authReducer";
 
+interface IPostList extends IFetchData {
+    data: {
+        item: IList
+    }
+}
+
 export const getTodolistAC = () => {
     return async (dispatch: Dispatch<TActionsTodo>) => {
         try {
@@ -28,13 +35,13 @@ export const getTodolistAC = () => {
     }
 }
 export const postTodolistAC = (title: string) => {
-    return async (dispatch: Dispatch<TActionsTodo | any>) => {
+    return async (dispatch: Dispatch<TActionsTodo>) => {
         try {
             dispatch({type: TODO_LOADING})
             const response = await instance.post('/todo-lists', {title})
-            const data: IFetchData = response.data
+            const data: IPostList = response.data
             if (data.resultCode === ResultCode.success){
-                dispatch(getTodolistAC())
+                dispatch(ACTodoCreateList(data.data.item))
             }
             if (data.resultCode === ResultCode.error) dispatch({type: TODO_ERROR_DATA, payload: data.messages[0]})
         }catch (e){
@@ -167,7 +174,6 @@ export const reorderTaskAC = (todolistId: string, taskId: string, putAfterItemId
             dispatch({type: TODO_LOADING})
             const response = await instance.put(`/todo-lists/${todolistId}/tasks/${taskId}/reorder`, {putAfterItemId})
             const data: IFetchData = response.data
-            console.log(data)
             if (data.resultCode === ResultCode.success){
                 dispatch(getTodoTasksAC(todolistId))
             }

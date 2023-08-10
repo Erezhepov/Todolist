@@ -8,7 +8,7 @@ export enum ResultCode {
     success = 0,
     error = 1
 }
-interface IAuthState {
+export interface IAuthState {
     loading: boolean
     error: null | string
     email: string | null
@@ -16,7 +16,7 @@ interface IAuthState {
     login: string | null
     message: string | null
 }
-const initialState: IAuthState = {
+export const initialState: IAuthState = {
     loading: false,
     error: null,
     email: '',
@@ -39,7 +39,7 @@ interface IActionAuthSuccess {
     type: typeof AUTH_SUCCESS
     payload: IAuthData
 }
-interface IActionAuthDelete {
+export interface IActionAuthDelete {
     type: typeof AUTH_DELETE,
 }
 interface IActionAuthErrorData {

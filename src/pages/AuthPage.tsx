@@ -31,7 +31,7 @@ const AuthPage = () => {
     return (
         <>
             {loading && <Loading />}
-            <div className={'container py-6'}>
+            <div data-testid={'authPage'} className={'container py-6'}>
                 <div className={'mb-10'}>
                     <h2 className={'text-[1.3em]'}>You can sign in with test email</h2>
                     <p>Email: free@samuraijs.com</p>

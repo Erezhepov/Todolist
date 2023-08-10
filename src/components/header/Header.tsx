@@ -16,7 +16,7 @@ const Header = () => {
             <div className="container flex justify-between">
                 <div className={'uppercase font-bold text-primary'}>Todolist</div>
                 <div className={'flex gap-5'}>
-                    {login ? <button onClick={logooutHandler}>Log out</button> : <NavLink to={'/auth'}>Log in</NavLink>}
+                    {login ? <button onClick={logooutHandler}>Log out</button> : <NavLink  data-testid={'auth-link'} to={'/auth'}>Log in</NavLink>}
                     {login && <div>{login}</div>}
                 </div>
             </div>

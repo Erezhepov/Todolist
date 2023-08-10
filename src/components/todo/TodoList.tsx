@@ -60,10 +60,9 @@ const TodoList: React.FC<ITodoList> = ({title, id, list, currentList, setCurrent
     const onDropHandler = (e: React.DragEvent<HTMLDivElement> | any, list: IList) => {
         if (e.target.classList.contains('todolist') || e.target.parentNode.classList.contains('todolist')) {
             e.currentTarget.style.background = '#212832'
-            if (currentList?.order !== list.order){
-                if (currentList?.order !== undefined && currentList?.order !== null){
+            if (currentList !== list){
+                if (currentList?.order !== list.order && currentList?.order !== undefined && currentList?.order !== null){
                     if (!isMovedTask){
-                        debugger
                         setDraggableTask(true)
                         setLastList(list)
                         setIsChanged(true)

@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
-import {postTodoTasksAC} from "../../store/actionCreators/todoThunks";
 import {useDispatch} from "react-redux";
+import {postTask} from "../../store/slices/todo.actions";
 
 interface IAddCard {
     id: string
 }
+
 
 const AddCard: React.FC<IAddCard> = ({id}) => {
     const dispatch: any = useDispatch()
@@ -13,7 +14,7 @@ const AddCard: React.FC<IAddCard> = ({id}) => {
     const postWithEnter = (e:  React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && title.length > 0){
             setIsActive(false)
-            dispatch(postTodoTasksAC(id, title))
+            dispatch(postTask({id, title}))
             setTitle('')
         }
     }
@@ -23,9 +24,13 @@ const AddCard: React.FC<IAddCard> = ({id}) => {
     const postTodolist = () => {
         if (title.length > 0){
             setIsActive(false)
-            dispatch(postTodoTasksAC(id, title))
+            dispatch(postTask({id, title}))
             setTitle('')
         }
+    }
+    const closeHandler = () => {
+        setIsActive(false)
+        setTitle('')
     }
     const changeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
@@ -37,7 +42,7 @@ const AddCard: React.FC<IAddCard> = ({id}) => {
                        className={'rounded-[.2em] p-[.25em] h-[1.8em] text-primary'} type="text"/>
                 <div className={'flex justify-between'}>
                     <button className={'btn '} onClick={postTodolist}>Add Card</button>
-                    <button className={'btn !w-[60px]'} onClick={() => setIsActive(false)}>X</button>
+                    <button className={'btn !w-[60px]'} onClick={closeHandler}>X</button>
                 </div>
             </> : (
                 <div onClick={activeHandler} className={'cursor-pointer opacity-[.6] hover:opacity-[1] border-2 p-[.7em] rounded h-[40px] flex items-center'}>

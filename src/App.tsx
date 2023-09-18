@@ -3,27 +3,26 @@ import Header from './components/header/Header';
 import {Route, Routes, useNavigate} from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import TodolistPage from "./pages/TodolistPage";
-import {fetchAuth} from "./store/actionCreators/authThunks";
-import {useDispatch} from "react-redux";
-import {useTypedSelector} from "./hooks/useTypedSelector";
+import {apiAuth} from "./store/slices/apiAuth";
+import Loading from "./components/Loading";
 
 function App() {
-    const dispatch: any = useDispatch()
-    const {login} = useTypedSelector(state => state.auth)
+    const {isLoading, error, data} = apiAuth.useGetAuthQuery(null)
     const navigate = useNavigate()
     useEffect(() => {
-        dispatch(fetchAuth())
-    }, [dispatch])
-    useEffect(() => {
-        if (login === null || login?.length === 0){
+        if (!data?.data.login){
             navigate('/auth')
+        }else{
+            navigate('/')
         }
-    }, [login, navigate])
+    }, [data, navigate])
 
   return (
       <div className={'h-[100%]'}>
-          <Header />
-          <div className="content">
+          <Header login={data?.data?.login} />
+          {isLoading && <Loading />}
+          {error && <div>Ошибка при авторизации</div>}
+          <div data-testId={'content'} className="content">
               <Routes>
                   <Route path={'/'} element={<TodolistPage />} />
                   <Route path={'/auth'} element={<AuthPage />} />

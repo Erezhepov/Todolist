@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useDispatch} from "react-redux";
-import {postTodolistAC} from "../../store/actionCreators/todoThunks";
+import {postList} from "../../store/slices/todo.actions";
 
 const AddList: React.FC<any> = () => {
     const [title, setTitle] = useState('')
@@ -9,7 +9,7 @@ const AddList: React.FC<any> = () => {
     const postTodolist = () => {
         if (title.length > 0){
             setIsActive(false)
-            dispatch(postTodolistAC(title))
+            dispatch(postList(title))
             setTitle('')
         }
     }
@@ -22,7 +22,7 @@ const AddList: React.FC<any> = () => {
     const postWithEnter = (e:  React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && title.length > 0){
             setIsActive(false)
-            dispatch(postTodolistAC(title))
+            dispatch(postList(title))
             setTitle('')
         }
     }

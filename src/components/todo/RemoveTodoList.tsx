@@ -1,7 +1,7 @@
 import React from 'react';
 import {useDispatch} from "react-redux";
-import {deleteTodolistAC} from "../../store/actionCreators/todoThunks";
 import {Dispatch} from "redux";
+import {deleteList} from "../../store/slices/todo.actions";
 
 interface IRemoveTodoListBtn {
     id: string
@@ -10,7 +10,7 @@ interface IRemoveTodoListBtn {
 const RemoveTodoListBtn: React.FC<IRemoveTodoListBtn> = ({id}) => {
     const dispatch: Dispatch<any> = useDispatch()
     const deleteTodolist = () => {
-        dispatch(deleteTodolistAC(id))
+        dispatch(deleteList(id))
     }
     return (
         <button className={'btn !w-[40px] !h-[36px] ml-[auto]'} onClick={deleteTodolist}>

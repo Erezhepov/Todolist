@@ -1,10 +1,10 @@
 import React from 'react';
 
-interface IError{
+interface IErrorFetch {
     error: string
 }
 
-export const ErrorFetch: React.FC<IError> = ({error}) => {
+export const ErrorFetch: React.FC<IErrorFetch> = ({error}) => {
     return (
         <div className={'text-[22px] text-center mt-[50px]'}>{error}</div>
     )

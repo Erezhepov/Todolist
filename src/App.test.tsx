@@ -15,7 +15,7 @@ describe('App test', () => {
                 </Provider>
             </MemoryRouter>
         )
-        const content: HTMLElement = screen.getByTestId('hello')
+        const content: HTMLElement = screen.getByTestId('content')
         expect(content).toBeInTheDocument()
     })
 })

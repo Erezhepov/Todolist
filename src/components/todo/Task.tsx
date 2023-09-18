@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import EditableValue from "./EditableValue";
-import {IList, ITask} from "../../store/reducers/todoReducer";
 import {useDispatch} from "react-redux";
-import {deleteTodoTaskAC, renameTodoTaskAC} from "../../store/actionCreators/todoThunks";
 import TaskModal from "./TaskModal";
+import {deleteTask, renameTask} from "../../store/slices/todo.actions";
+import {IList, ITask} from "../../models/todo.models";
 
 interface ICard {
     task: ITask
@@ -19,19 +19,25 @@ interface ICard {
     setIsChanged: (isChanged: boolean) => void
     setIsMovedTask: (isMoved: boolean) => void
     draggableTask: boolean
+    setDraggableTask: (isDraggableTask :boolean) => void
 }
 
-const Task: React.FC<ICard> = ({task, listId, listName, setCurrentList, list, currentList, setLastList, setIsChanged, setCurrentTask, setIsMovedTask, setDroppedTask, draggableTask}) => {
+const Task: React.FC<ICard> = ({task, listId, listName, setCurrentList, list, currentList, setLastList, setIsChanged, setCurrentTask, setIsMovedTask, setDroppedTask, draggableTask, setDraggableTask}) => {
     const dispatch: any = useDispatch()
     const [isOpenModal, setIsOpenModal] = useState(false)
     const removeTask = () => {
-        dispatch(deleteTodoTaskAC(listId, task.id))
+        const data = {listId, taskId: task.id}
+        dispatch(deleteTask(data))
     }
-    const renameTask = (title: string) => {
-        dispatch(renameTodoTaskAC(listId, task.id, title))
+    const renameTaskHandler = (title: string) => {
+        const data = {
+            listId, taskId: task.id, title
+        }
+        dispatch(renameTask(data))
     }
     const modalHandler = () => {
         setIsOpenModal(true)
+        setDraggableTask(false)
     }
     const dragStartHandler = (e:  React.DragEvent<HTMLDivElement>, list: IList, task: ITask) => {
         setIsChanged(false)
@@ -68,7 +74,7 @@ const Task: React.FC<ICard> = ({task, listId, listName, setCurrentList, list, cu
                 title={'double click'} onDoubleClick={modalHandler} className={'task border-2 rounded p-[.4em] cursor-pointer'}>
                 <ul className={'flex justify-between items-center'}>
                     <li className={'flex justify-start gap-5 items-center'} >
-                        <EditableValue renameValue={renameTask} value={task.title} />
+                        <EditableValue renameValue={renameTaskHandler} value={task.title} />
                     </li>
                     <button className={'btn !w-[40px] !h-[36px]'} onClick={removeTask}>X</button>
                 </ul>

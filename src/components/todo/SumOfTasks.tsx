@@ -1,5 +1,5 @@
 import React from 'react';
-import {ITask} from "../../store/reducers/todoReducer";
+import {ITask} from "../../models/todo.models";
 
 interface ISumOfTasks {
     items: ITask[]

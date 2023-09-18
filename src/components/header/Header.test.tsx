@@ -8,14 +8,14 @@ import userEvent from "@testing-library/user-event";
 import {Provider} from "react-redux";
 import {store} from "../../store";
 
-jest.mock('../../hooks/useTypedSelector')
+jest.mock('../../hooks/useAppSelector')
 
 describe('header', () => {
     test('header nav link', async () => {
         render(
             <MemoryRouter>
                 <Provider store={store}>
-                    <Header />
+                    <Header login={'login'} />
                     <Routes>
                         <Route path={'/'} element={<TodolistPage />} />
                         <Route path={'/auth'} element={<AuthPage />} />

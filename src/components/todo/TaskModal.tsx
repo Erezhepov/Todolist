@@ -1,8 +1,8 @@
 import React from 'react';
 import {useDispatch} from "react-redux";
-import {putDescriptionTaskAC} from "../../store/actionCreators/todoThunks";
 import EditableDescription from "./EditableDescription";
 import CloseModalBtn from "./CloseModalBtn";
+import {putDescriptionTask} from "../../store/slices/todo.actions";
 
 interface ITaskModal {
     closeModal: (isOpen: boolean) => void
@@ -17,8 +17,11 @@ const TaskModal: React.FC<ITaskModal> = ({taskName, listName, closeModal, descri
     const dispatch: any = useDispatch()
     const closeHandler = (e: React.MouseEvent<HTMLDivElement>) =>  e.currentTarget === e.target && closeModal(false)
     const changeDescription = (value: string) => {
+        const data = {
+            listId, taskId, taskName, value
+        }
         if (value.trim() !== description?.trim()){
-            dispatch(putDescriptionTaskAC(listId, taskId, taskName, value))
+            dispatch(putDescriptionTask(data))
         }
     }
     return (

@@ -43,11 +43,6 @@ header{
 }
 .task{
   transition: all .3s;
-  opacity: .6;
-  &:hover{
-    transition: all .3s;
-    opacity: 1;
-  }
 }
 button.btn{
   transition: all .3s;
@@ -69,4 +64,8 @@ button.btn{
   border-radius: 1em;
   -webkit-box-shadow: 5px 5px 5px -5px rgba(34, 60, 80, 0.2) inset;
   background-color: #434958;
+}
+input{
+  outline: none;
+  box-shadow: 0 0 5pt 0.2pt #fed36a;
 }
